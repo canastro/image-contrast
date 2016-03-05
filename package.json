@@ -1,0 +1,14 @@
+{
+  "name": "image-contrast",
+  "version": "0.0.1",
+  "description": "Small library to apply a contrast transformation to a image",
+  "main": "index.js",
+  "scripts": {
+    "build": "browserify sandbox/sandbox.js > sandbox/bundle.js"
+  },
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "browserify": "^13.0.0"
+  }
+}
