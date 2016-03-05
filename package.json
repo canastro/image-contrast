@@ -1,13 +1,27 @@
 {
   "name": "image-contrast",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Small library to apply a contrast transformation to a image",
   "main": "index.js",
   "scripts": {
     "build": "browserify sandbox/sandbox.js > sandbox/bundle.js"
   },
-  "author": "",
+  "author": "Ricardo Canastro",
   "license": "ISC",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/canastro/image-contrast"
+  },
+  "bugs": {
+    "url": "https://github.com/canastro/image-contrast/issues"
+  },
+  "keywords": [
+    "image",
+    "image-contrast",
+    "contrast",
+    "transformation",
+    "pixel"
+  ],
   "devDependencies": {
     "browserify": "^13.0.0"
   }
