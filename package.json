@@ -1,6 +1,6 @@
 {
   "name": "image-contrast",
-  "version": "0.0.5",
+  "version": "0.0.6",
   "description": "Small library to apply a contrast transformation to a image",
   "main": "index.js",
   "scripts": {

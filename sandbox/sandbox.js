@@ -23,13 +23,13 @@ window.onload = function () {
 
         var results1 = imageContrast({
             data: data,
-            adjustment: 30
+            contrast: 30
         });
         applyResults('#target-1', results1);
 
         var results2 = imageContrast({
             data: data,
-            adjustment: 70
+            contrast: 70
         });
         applyResults('#target-2', results2);
     };

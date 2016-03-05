@@ -24,7 +24,7 @@ function transform(canvas, context, imageData, factor) {
  * @name contrastImage
  * @param {object} options
  * @param {string} options.data - data of a image extracted from a canvas
- * @param {string} options.adjustment - contrast value to apply
+ * @param {string} options.contrast - contrast value to apply
  */
 module.exports = function contrastImage(options) {
     var factor;
@@ -32,13 +32,13 @@ module.exports = function contrastImage(options) {
     var canvas = document.createElement('canvas');
     var context = canvas.getContext('2d');
 
-    if (!options.data || !options.adjustment) {
+    if (!options.data || !options.contrast) {
         throw new Error('image-brightness:: invalid options provided');
     }
 
     options.data = copyImageData(context, options.data);
 
-    factor = getFactor(options.adjustment)
+    factor = getFactor(options.contrast)
     result = transform(canvas, context, options.data, factor);
 
     return result;
