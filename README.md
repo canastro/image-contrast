@@ -33,6 +33,8 @@ HTML:
 ### From canvas imageData:
 
 ```js
+var imageContrast = require('image-contrast');
+
 var canvas = document.createElement('canvas');
 var context = canvas.getContext('2d');
 var img = new Image;
@@ -54,4 +56,15 @@ img.onload = function(){
     });
 };
 img.src = "http://lorempixel.com/400/200";
+```
+
+### From image url:
+```js
+var imageContrast = require('image-contrast');
+
+imageContrast({
+    url: "http://lorempixel.com/400/200",
+    to: '#target-5',
+    contrast: 30
+});
 ```

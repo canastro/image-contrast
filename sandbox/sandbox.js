@@ -1,6 +1,8 @@
 var imageContrast = require('../index');
 
 window.onload = function () {
+
+    //Usage 1:
     imageContrast({
         from: '#original',
         to: '#target-1',
@@ -13,6 +15,7 @@ window.onload = function () {
         contrast: 70
     });
 
+    //Usage 2:
     var canvas = document.createElement('canvas');
     var context = canvas.getContext('2d');
     var img = new Image;
@@ -37,4 +40,16 @@ window.onload = function () {
     };
     img.src = "http://lorempixel.com/400/200";
 
+    //Usage 3:
+    imageContrast({
+        url: "http://lorempixel.com/400/200",
+        to: '#target-5',
+        contrast: 30
+    });
+
+    imageContrast({
+        url: "http://lorempixel.com/400/200",
+        to: '#target-6',
+        contrast: 70
+    });
 }

@@ -1,10 +1,14 @@
-function getImageData(context, selector) {
-
+function getImageElement(selector) {
     var element = document.querySelectorAll(selector)[0];
 
     if (!element) {
         throw new Error('image-contrast:: no "from" element found');
     }
+
+    return element;
+}
+
+function getImageData(context, element) {
 
     if (element.tagName !== 'IMG') {
         throw new Error('image-contrast:: invalid origin');
@@ -53,25 +57,32 @@ function appendResult(selector, src) {
 /**
  * @name contrastImage
  * @param {object} options
+ * @param {string} options.url - image url
  * @param {string} options.imageData - data of a image extracted from a canvas
  * @param {string} options.from - dom selector of the original image
  * @param {string} options.to - dom selector of the target result
  * @param {string} options.contrast - contrast value to apply
  */
 module.exports = function contrastImage(options) {
+    var element;
     var data;
     var factor
     var canvas = document.createElement('canvas');
     var context = canvas.getContext('2d');
 
-    if (!options || !options.contrast || (!options.imageData && !options.from)) {
+    if (!options || !options.contrast || (!options.url && !options.imageData && !options.from)) {
         throw new Error('image-contrast:: invalid options object');
     }
 
-    if (options.imageData) {
+    if (options.url) {
+        element = document.createElement('img');
+        element.setAttribute('src', options.url);
+        data = getImageData(context, element);
+    } else if (options.imageData) {
         data = options.imageData;
     } else if (options.from) {
-        data = getImageData(context, options.from);
+        element = getImageElement(options.from);
+        data = getImageData(context, element);
     }
 
     if (!data) {
