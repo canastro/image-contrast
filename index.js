@@ -1,3 +1,9 @@
+function copyImageData(ctx, src) {
+    var dst = ctx.createImageData(src.width, src.height);
+    dst.data.set(src.data);
+    return dst;
+}
+
 function getFactor(contrast) {
     return (259 * (contrast + 255)) / (255 * (259 - contrast));
 }
@@ -29,6 +35,8 @@ module.exports = function contrastImage(options) {
     if (!options.data || !options.adjustment) {
         throw new Error('image-brightness:: invalid options provided');
     }
+
+    options.data = copyImageData(context, options.data);
 
     factor = getFactor(options.adjustment)
     result = transform(canvas, context, options.data, factor);
