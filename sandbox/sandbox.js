@@ -13,23 +13,25 @@ function applyResults(selector, src) {
 
 window.onload = function () {
 
-    var canvas = document.createElement('canvas');
-    var context = canvas.getContext('2d');
     var img = new Image;
     img.onload = function(){
+        var canvas = document.createElement('canvas');
+        canvas.width = img.width;
+        canvas.height = img.height;
+        var context = canvas.getContext('2d');
         context.drawImage(img,0,0);
 
         var data = context.getImageData(0, 0, img.width, img.height);
 
         var results1 = imageContrast({
             data: data,
-            contrast: 30
+            contrast: 50
         });
         applyResults('#target-1', results1);
 
         var results2 = imageContrast({
             data: data,
-            contrast: 70
+            contrast: 100
         });
         applyResults('#target-2', results2);
     };
