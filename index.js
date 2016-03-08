@@ -35,13 +35,11 @@ function getFactor(contrast) {
 
 /**
  * @name transform
- * @param {object} canvas
- * @param {object} context
  * @param {object} imageData
  * @param {number} factor
  * Iterate over the array applying the contrast transformation
  */
-function transform(canvas, context, imageData, factor) {
+function transform(imageData, factor) {
     var data = imageData.data;
     for (var i = 0; i < data.length; i+= 4) {
         data[i] = factor * (data[i] - 128) + 128;
@@ -49,6 +47,15 @@ function transform(canvas, context, imageData, factor) {
         data[i+2] = factor * (data[i+2] - 128) + 128;
     }
 
+    return imageData;
+}
+
+/**
+ * @name convertToDataURL
+ * @param {object} canvas
+ * @param {object} context
+ */
+function convertToDataURL(canvas, context, imageData) {
     context.putImageData(imageData, 0, 0);
     return canvas.toDataURL();
 }
@@ -58,6 +65,7 @@ function transform(canvas, context, imageData, factor) {
  * @param {object} options
  * @param {string} options.data - data of a image extracted from a canvas
  * @param {string} options.contrast - contrast value to apply
+ * @param {bool} options.asDataURL
  */
 module.exports = function contrastImage(options) {
     var factor;
@@ -75,7 +83,11 @@ module.exports = function contrastImage(options) {
     options.data = getPixels(canvas, context, options.data);
 
     factor = getFactor(options.contrast)
-    result = transform(canvas, context, options.data, factor);
+    result = transform(options.data, factor);
+
+    if (options.asDataURL) {
+        return convertToDataURL(canvas, context, result);
+    }
 
     return result;
 }

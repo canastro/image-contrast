@@ -14,6 +14,7 @@ function applyResults(selector, src) {
 window.onload = function () {
 
     var img = new Image;
+    img.crossOrigin = "Anonymous";
     img.onload = function(){
         var canvas = document.createElement('canvas');
         canvas.width = img.width;
@@ -25,15 +26,17 @@ window.onload = function () {
 
         var results1 = imageContrast({
             data: data,
-            contrast: 50
+            contrast: 50,
+            asDataURL: true
         });
         applyResults('#target-1', results1);
 
         var results2 = imageContrast({
             data: data,
-            contrast: 100
+            contrast: 100,
+            asDataURL: true
         });
         applyResults('#target-2', results2);
     };
-    img.src = "http://lorempixel.com/400/200";
+    img.src = "dummy.jpg";
 }
