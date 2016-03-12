@@ -1,11 +1,13 @@
 {
   "name": "image-contrast",
-  "version": "0.0.9",
+  "version": "0.0.10",
   "description": "Small library to apply a contrast transformation to a image",
   "main": "index.js",
   "scripts": {
-    "build": "browserify sandbox/sandbox.js > sandbox/bundle.js",
-    "serve": "http-server sandbox"
+      "build": "browserify sandbox/sandbox.js > sandbox/bundle.js",
+      "test": "./node_modules/.bin/karma start",
+      "codecov": "cat coverage/*/lcov.info | ./node_modules/codecov.io/bin/codecov.io.js",
+      "serve": "http-server sandbox"
   },
   "author": "Ricardo Canastro",
   "license": "ISC",
@@ -28,7 +30,20 @@
     "pixel"
   ],
   "devDependencies": {
-    "browserify": "^13.0.0",
-    "http-server": "^0.9.0"
+      "brfs": "^1.4.3",
+      "browserify": "^13.0.0",
+      "browserify-istanbul": "^1.0.0",
+      "chai": "^3.5.0",
+      "codecov.io": "^0.1.6",
+      "http-server": "^0.9.0",
+      "karma": "^0.13.22",
+      "karma-browserify": "^5.0.2",
+      "karma-coverage": "^0.5.5",
+      "karma-mocha": "^0.2.2",
+      "karma-mocha-reporter": "^2.0.0",
+      "karma-phantomjs-launcher": "^1.0.0",
+      "mocha": "^2.4.5",
+      "phantomjs-prebuilt": "^2.1.5",
+      "sinon": "^1.17.3"
   }
 }

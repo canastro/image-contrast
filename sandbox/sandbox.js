@@ -1,4 +1,4 @@
-var imageContrast = require('../index');
+var imageContrast = require('../src/index');
 
 function applyResults(selector, src) {
     var target;

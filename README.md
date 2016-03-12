@@ -1,3 +1,6 @@
+![build status](https://travis-ci.org/canastro/image-contrast.svg?branch=master)
+[![npm version](https://badge.fury.io/js/image-contrast.svg)](https://badge.fury.io/js/image-contrast)
+
 # image-contrast
 
 Small library to apply a contrast transformation to a image.

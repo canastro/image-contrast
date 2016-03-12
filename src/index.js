@@ -1,28 +1,4 @@
-/**
- * @name getCanvas
- * @param {number} w - width
- * @param {number} h - height
- * Create a canvas with the currect size
- */
-function getCanvas(w, h) {
-    var canvas = document.createElement('canvas');
-    canvas.width = w;
-    canvas.height = h;
-
-    return canvas;
-}
-
-/**
- * @name getPixels
- * @param {object} canvas
- * @param {object} context
- * @param {object} imageData
- * Get a deep copy of the image data so we don't change the original imageData
- */
-function getPixels(canvas, context, imageData) {
-    context.putImageData(imageData, 0, 0);
-    return context.getImageData(0, 0, canvas.width, canvas.height);
-}
+var utils = require('./utils');
 
 /**
  * @name getFactor
@@ -51,16 +27,6 @@ function transform(imageData, factor) {
 }
 
 /**
- * @name convertToDataURL
- * @param {object} canvas
- * @param {object} context
- */
-function convertToDataURL(canvas, context, imageData) {
-    context.putImageData(imageData, 0, 0);
-    return canvas.toDataURL();
-}
-
-/**
  * @name contrastImage
  * @param {object} options
  * @param {string} options.data - data of a image extracted from a canvas
@@ -77,16 +43,16 @@ module.exports = function contrastImage(options) {
         throw new Error('image-contrast:: invalid options provided');
     }
 
-    canvas = getCanvas(options.data.width, options.data.height);
+    canvas = utils.getCanvas(options.data.width, options.data.height);
     context = canvas.getContext('2d');
 
-    options.data = getPixels(canvas, context, options.data);
+    options.data = utils.getPixels(canvas, context, options.data);
 
     factor = getFactor(options.contrast)
     result = transform(options.data, factor);
 
     if (options.asDataURL) {
-        return convertToDataURL(canvas, context, result);
+        return utils.convertToDataURL(canvas, context, result);
     }
 
     return result;
