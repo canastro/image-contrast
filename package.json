@@ -1,6 +1,6 @@
 {
-  "name": "image-contrast",
-  "version": "0.1.0",
+  "name": "image-filter-contrast",
+  "version": "0.0.1",
   "description": "Small library to apply a contrast transformation to a image",
   "main": "src/index.js",
   "scripts": {
@@ -13,10 +13,10 @@
   "license": "ISC",
   "repository": {
     "type": "git",
-    "url": "https://github.com/canastro/image-contrast"
+    "url": "https://github.com/canastro/image-filter-contrast"
   },
   "bugs": {
-    "url": "https://github.com/canastro/image-contrast/issues"
+    "url": "https://github.com/canastro/image-filter-contrast/issues"
   },
   "keywords": [
     "image",
@@ -52,6 +52,7 @@
     "watchify": "^3.7.0"
   },
   "dependencies": {
+    "image-filter-core": "0.0.1",
     "webworkify": "^1.2.1"
   },
   "browserify": {
