@@ -1,6 +1,6 @@
 import sinon from 'sinon';
 import { expect } from 'chai';
-import * as utils from '../src/utils';
+import * as utils from 'image-filter-core';
 import imageContrast from '../src/index';
 import 'babel-polyfill';
 

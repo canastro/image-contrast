@@ -1,5 +1,7 @@
 module.exports = function (config) {
     config.set({
+        singleRun: true,
+
         frameworks: ['mocha', 'browserify'],
 
         files: [

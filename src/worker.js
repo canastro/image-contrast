@@ -2,7 +2,7 @@ import { transform } from './contrast';
 
 module.exports = function (self) {
     self.addEventListener('message', (e) => {
-        const factor = e.data.factor;
+        const factor = e.data.params.factor;
 
         const canvasData = e.data.data;
         const binaryData = canvasData.data;

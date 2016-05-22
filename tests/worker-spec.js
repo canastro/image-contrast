@@ -21,7 +21,9 @@ describe('worker', () => {
             self.addEventListener = (type, fn) => {
                 const e = {
                     data: {
-                        factor: 1.5,
+                        params: {
+                            factor: 1.5
+                        },
                         data: {
                             data: [
                                 193,

@@ -1,6 +1,5 @@
-import { getCanvas } from './utils';
-import work from 'webworkify';
 import worker from './worker';
+import { apply, getCanvas } from 'image-filter-core';
 
 /**
  * @name getFactor
@@ -10,55 +9,6 @@ import worker from './worker';
  */
 function getFactor(contrast) {
     return (259 * (contrast + 255)) / (255 * (259 - contrast));
-}
-
-/**
- * @name apply
- * @param {number} nWorkers
- * @param {object} canvas
- * @param {object} context
- * @param {number} factor
- * @param {number} blockSize
- * @param {number} segmentLength
- * @returns {promise}
- */
-function apply(nWorkers, canvas, context, factor, blockSize, segmentLength) {
-    let w;
-    let finished = 0;
-
-    return new Promise((resolve) => {
-        for (let index = 0; index < nWorkers; index++) {
-            w = work(worker);
-
-            w.addEventListener('message', (e) => {
-                // Data is retrieved using a memory clone operation
-                const resultCanvasData = e.data.result;
-                const index = e.data.index;
-
-                // Copying back canvas data to canvas
-                // If the first webworker  (index 0) returns data, apply it at pixel (0, 0) onwards
-                // If the second webworker  (index 1) returns data, apply it at pixel (0, canvas.height/4) onwards, and so on
-                context.putImageData(resultCanvasData, 0, blockSize * index);
-
-                finished++;
-
-                if (finished === nWorkers) {
-                    resolve(canvas.toDataURL());
-                }
-            });
-
-            // Getting the picture
-            const canvasData = context.getImageData(0, blockSize * index, canvas.width, blockSize);
-
-            // Sending canvas data to the worker using a copy memory operation
-            w.postMessage({
-                data: canvasData,
-                index,
-                length: segmentLength,
-                factor
-            });
-        }
-    });
 }
 
 /**
@@ -76,7 +26,9 @@ export default function contrastImage(options) {
     }
 
     const nWorkers = options.nWorkers || 4;
-    const factor = getFactor(options.contrast);
+    const params = {
+        factor: getFactor(options.contrast)
+    };
     const canvas = getCanvas(options.data.width, options.data.height);
     const context = canvas.getContext('2d');
 
@@ -88,10 +40,11 @@ export default function contrastImage(options) {
     const blockSize = canvas.height / nWorkers; // Height of the picture chunck for every worker
 
     return apply(
+        worker,
         nWorkers,
         canvas,
         context,
-        factor,
+        params,
         blockSize,
         segmentLength
     );
