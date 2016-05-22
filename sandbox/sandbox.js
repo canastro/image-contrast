@@ -29,7 +29,6 @@ window.onload = function () {
             contrast: 50,
             asDataURL: true
         }).then((results) => {
-            console.log('applyResults');
             applyResults('#target-1', results);
         });
 
@@ -38,7 +37,6 @@ window.onload = function () {
             contrast: 100,
             asDataURL: true
         }).then((results) => {
-            console.log('applyResults');
             applyResults('#target-2', results);
         });
     };

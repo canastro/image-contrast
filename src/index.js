@@ -1,29 +1,39 @@
-let utils = require('./utils');
-let work = require('webworkify');
-
-const nWorkers = 4;
+import { getCanvas } from './utils';
+import work from 'webworkify';
+import worker from './worker';
 
 /**
  * @name getFactor
  * @param {number} contrast
+ * @returns {number}
  * Get the contrast factor based on the provided contrast value
  */
 function getFactor(contrast) {
     return (259 * (contrast + 255)) / (255 * (259 - contrast));
 }
 
-function apply(canvas, context, factor, blockSize, segmentLength) {
+/**
+ * @name apply
+ * @param {number} nWorkers
+ * @param {object} canvas
+ * @param {object} context
+ * @param {number} factor
+ * @param {number} blockSize
+ * @param {number} segmentLength
+ * @returns {promise}
+ */
+function apply(nWorkers, canvas, context, factor, blockSize, segmentLength) {
     let w;
     let finished = 0;
 
     return new Promise((resolve) => {
         for (let index = 0; index < nWorkers; index++) {
-            w = work(require('./worker.js'));
+            w = work(worker);
 
-            w.addEventListener('message', function (e) {
+            w.addEventListener('message', (e) => {
                 // Data is retrieved using a memory clone operation
                 const resultCanvasData = e.data.result;
-                let index = e.data.index;
+                const index = e.data.index;
 
                 // Copying back canvas data to canvas
                 // If the first webworker  (index 0) returns data, apply it at pixel (0, 0) onwards
@@ -32,8 +42,7 @@ function apply(canvas, context, factor, blockSize, segmentLength) {
 
                 finished++;
 
-                if (finished == nWorkers) {
-                    console.log('finished!!');
+                if (finished === nWorkers) {
                     resolve(canvas.toDataURL());
                 }
             });
@@ -57,32 +66,29 @@ function apply(canvas, context, factor, blockSize, segmentLength) {
  * @param {object} options
  * @param {string} options.data - data of a image extracted from a canvas
  * @param {string} options.contrast - contrast value to apply
+ * @param {string} options.nWorkers - number of workers
  * @param {bool} options.asDataURL
+ * @returns {promise}
  */
 export default function contrastImage(options) {
-    let factor;
-    let canvas;
-    let context;
-
-    let len;
-    let segmentLength;
-
     if (!options.data || !options.contrast) {
         throw new Error('image-contrast:: invalid options provided');
     }
 
-    factor = getFactor(options.contrast);
-    canvas = utils.getCanvas(options.data.width, options.data.height);
-    context = canvas.getContext('2d');
+    const nWorkers = options.nWorkers || 4;
+    const factor = getFactor(options.contrast);
+    const canvas = getCanvas(options.data.width, options.data.height);
+    const context = canvas.getContext('2d');
 
     // Drawing the source image into the target canvas
     context.putImageData(options.data, 0, 0);
 
-    len = canvas.width * canvas.height * 4;
-    segmentLength = len / nWorkers; // This is the length of array sent to the worker
+    const len = canvas.width * canvas.height * 4;
+    const segmentLength = len / nWorkers; // This is the length of array sent to the worker
     const blockSize = canvas.height / nWorkers; // Height of the picture chunck for every worker
 
     return apply(
+        nWorkers,
         canvas,
         context,
         factor,

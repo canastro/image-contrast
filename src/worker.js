@@ -16,5 +16,7 @@ module.exports = function (self) {
             result: canvasData,
             index
         });
+
+        self.close();
     });
 };
