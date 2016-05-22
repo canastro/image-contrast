@@ -1,6 +1,4 @@
-var istanbul = require('browserify-istanbul');
-
-module.exports = function(config) {
+module.exports = function (config) {
     config.set({
         singleRun: true,
 
@@ -40,10 +38,7 @@ module.exports = function(config) {
         browserify: {
             debug: true,
             transform: [
-                'brfs',
-                istanbul({
-                    ignore: ['**/node_modules/**']
-                })
+                'babelify'
             ]
         },
 
