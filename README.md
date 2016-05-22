@@ -1,14 +1,14 @@
-![build status](https://travis-ci.org/canastro/image-contrast.svg?branch=master)
-[![npm version](https://badge.fury.io/js/image-contrast.svg)](https://badge.fury.io/js/image-contrast)
+![build status](https://travis-ci.org/canastro/image-filter-contrast.svg?branch=master)
+[![npm version](https://badge.fury.io/js/image-filter-contrast.svg)](https://badge.fury.io/js/image-filter-contrast)
 
-# image-contrast
+# image-filter-contrast
 
 Small library to apply a contrast transformation to a image.
 
 ## Install
 
 ```
-npm install image-contrast --save
+npm install image-filter-contrast --save
 ```
 
 ## Usage
@@ -17,7 +17,7 @@ It applies a contrast transformation to a base64 image. If you want a more compl
 The default operation of this library is to consume imageData and return transformed imageData, but to facilitate a bit you can pass `asDataURL` as true to return a dataURL that you can inject into a image tag.
 
 ```js
-var imageContrast = require('image-contrast');
+var imageContrast = require('image-filter-contrast');
 
 var result = imageContrast({
     data: IMAGE_DATA,
