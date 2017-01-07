@@ -1,9 +1,21 @@
 ![build status](https://travis-ci.org/canastro/image-filter-contrast.svg?branch=master)
 [![npm version](https://badge.fury.io/js/image-filter-contrast.svg)](https://badge.fury.io/js/image-filter-contrast)
+[![codecov](https://codecov.io/gh/canastro/image-filter-contrast/branch/master/graph/badge.svg)](https://codecov.io/gh/canastro/image-filter-contrast)
 
 # image-filter-contrast
 
-Small library to apply a contrast transformation to a image.
+Small library to apply a contrast transformation to a image relying on `image-filter-core` handle the transformation and distribute work with webworkers.
+
+Other related modules:
+* [image-filter-core](https://www.npmjs.com/package/image-filter-core)
+* [image-filter-contrast](https://www.npmjs.com/package/image-filter-contrast)
+* [image-filter-grayscale](https://www.npmjs.com/package/image-filter-grayscale)
+* [image-filter-threshold](https://www.npmjs.com/package/image-filter-threshold)
+* [image-filter-sepia](https://www.npmjs.com/package/image-filter-sepia)
+* [image-filter-invert](https://www.npmjs.com/package/image-filter-invert)
+* [image-filter-gamma](https://www.npmjs.com/package/image-filter-gamma)
+* [image-filter-colorize](https://www.npmjs.com/package/image-filter-colorize)
+* [image-filters](https://www.npmjs.com/package/image-filters)
 
 ## Install
 
@@ -14,19 +26,16 @@ npm install image-filter-contrast --save
 ## Usage
 It applies a contrast transformation to a base64 image. If you want a more complete library, please check image-filters that wraps this and other libraries to provide a more complete suite of image filters.
 
-The default operation of this library is to consume imageData and return transformed imageData, but to facilitate a bit you can pass `asDataURL` as true to return a dataURL that you can inject into a image tag.
+This library consumes ImageData and outputs ImageData in a Promise. You can use `image-filter-core` to convert from ImageData to dataURL.
 
+JS file:
 ```js
-var imageContrast = require('image-filter-contrast');
+var imageContrast = require('image-contrast');
 
-var result = imageContrast({
-    data: IMAGE_DATA,
-    contrast: 30,
-    asDataURL: true //if you want data to data transformation you don't need to include this
-});
+imageContrast(IMAGE_DATA, { contrast: 30 });
 ```
 
-# Frequent questions:
+## Frequent questions:
 ### How can I get image data from a image tag?
 
 ```js
@@ -48,14 +57,12 @@ element.setAttribute('src', options.url);
 ### How can I use the output of this?
 
 ```js
-var result = imageContrast({
-    data: IMAGE_DATA,
-    contrast: 30
-});
-
-var image = document.createElement('img');
-image.setAttribute('src', result);
-
-var target = document.getElementById('#dummy-target');
-target.appendChild(image);
+var imageFilterCore = require('image-filter-core');
+imageContrast(IMAGE_DATA, { contrast: 30 })
+    .then(function (result) {
+        // result === ImageData object
+        var image = document.createElement('img');
+        image.setAttribute('src', imageFilterCore.convertImageDataToCanvasURL(imageData));
+        target.appendChild(image);
+    });
 ```

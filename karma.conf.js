@@ -1,6 +1,5 @@
 var istanbul = require('istanbul');
-var bistanbul = require('browserify-babel-istanbul');
-var babelify = require('babelify');
+var bistanbul = require('browserify-istanbul');
 
 module.exports = function (config) {
     config.set({
@@ -42,7 +41,6 @@ module.exports = function (config) {
         browserify: {
             debug: true,
             transform: [
-                babelify,
                 bistanbul({
                     instrumenterConfig: {
                         noCompact: true
