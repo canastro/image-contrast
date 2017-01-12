@@ -6,7 +6,15 @@
 
 Small library to apply a contrast transformation to a image relying on `image-filter-core` handle the transformation and distribute work with webworkers.
 
-Other related modules:
+If you run `npm run build && npm run serve` and open `http://localhost:8080`, you'll find out the code for the following example:
+
+### Original:
+<img src="https://github.com/canastro/image-filter-contrast/blob/master/sandbox/dummy.jpg?raw=true" width="300">
+
+### Expected Result (contrast: 70):
+<img src="https://github.com/canastro/image-filter-contrast/blob/master/sandbox/expected.png?raw=true" width="300">
+
+### Other related modules:
 * [image-filter-core](https://www.npmjs.com/package/image-filter-core)
 * [image-filter-contrast](https://www.npmjs.com/package/image-filter-contrast)
 * [image-filter-grayscale](https://www.npmjs.com/package/image-filter-grayscale)
@@ -30,10 +38,13 @@ This library consumes ImageData and outputs ImageData in a Promise. You can use 
 
 JS file:
 ```js
-var imageContrast = require('image-contrast');
+var imageContrast = require('image-filters-contrast');
 var nWorkers = 4;
 
-imageContrast(IMAGE_DATA, { contrast: 30 }, nWorkers);
+imageContrast(IMAGE_DATA, { contrast: 30 }, nWorkers)
+    .then(function (result) {
+        // result === ImageData object
+    });
 ```
 
 ## Frequent questions:
